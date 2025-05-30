@@ -22,8 +22,21 @@
    - Added index on order_items(order_id, product_id) for join optimization
    - Created index on products(product_id, category_id) for category lookups
    - Added index on categories(category_id, category_name) for name retrieval
+3. **Index Hints Implementation**
+   - Used FORCE INDEX hints to ensure the query optimizer uses our specific indexes
+   - Applied idx_orders_date_status to both orders table references
+   - Used idx_order_items_product for order_items joins
+   - Enforced idx_products_category for products table joins
+   - Applied idx_categories_name for categories table lookups
+   - These hints helped ensure consistent index usage across all query components
 
-2. **Performance Impact**
+4. **Index Usage Strategy**
+   - Composite indexes were designed to support both filtering and joining operations
+   - Index order was optimized for the most common access patterns
+   - Index hints were necessary because the query optimizer sometimes chose suboptimal execution plans
+   - The combination of proper index design and forced usage led to significant performance improvements
+
+5. **Performance Impact**
    - Reduced full table scans
    - Improved join performance
    - Better filtering efficiency
