@@ -1,0 +1,19 @@
+-> Sort: total_spent DESC  (actual time=0.0275..0.0275 rows=0 loops=1)
+    -> Filter: (`count(distinct orders.order_id)` > 0)  (actual time=0.026..0.026 rows=0 loops=1)
+        -> Stream results  (actual time=0.0259..0.0259 rows=0 loops=1)
+            -> Group aggregate: count(distinct orders.order_id), count(distinct orders.order_id), sum(tmp_field), group_concat(distinct categories.category_name separator ', ')  (actual time=0.0255..0.0255 rows=0 loops=1)
+                -> Sort: c.customer_id, c.first_name, c.last_name  (actual time=0.0251..0.0251 rows=0 loops=1)
+                    -> Stream results  (cost=2.65 rows=1.5) (actual time=0.0219..0.0219 rows=0 loops=1)
+                        -> Nested loop left join  (cost=2.65 rows=1.5) (actual time=0.0211..0.0211 rows=0 loops=1)
+                            -> Nested loop left join  (cost=2.13 rows=1.5) (actual time=0.0209..0.0209 rows=0 loops=1)
+                                -> Nested loop left join  (cost=1.6 rows=1.5) (actual time=0.0209..0.0209 rows=0 loops=1)
+                                    -> Nested loop inner join  (cost=1.2 rows=1) (actual time=0.0209..0.0209 rows=0 loops=1)
+                                        -> Filter: ((o.`status` = 'completed') and (o.order_date >= <cache>((curdate() - interval 1 year))) and (o.customer_id is not null))  (cost=0.85 rows=1) (actual time=0.0206..0.0206 rows=0 loops=1)
+                                            -> Table scan on o  (cost=0.85 rows=6) (actual time=0.0105..0.0126 rows=6 loops=1)
+                                        -> Single-row index lookup on c using PRIMARY (customer_id=o.customer_id)  (cost=0.35 rows=1) (never executed)
+                                    -> Index lookup on oi using PRIMARY (order_id=o.order_id)  (cost=0.4 rows=1.5) (never executed)
+                                -> Single-row index lookup on p using PRIMARY (product_id=oi.product_id)  (cost=0.317 rows=1) (never executed)
+                            -> Single-row index lookup on cat using PRIMARY (category_id=p.category_id)  (cost=0.317 rows=1) (never executed)
+
+
+Query block execution time: 0.027 seconds
