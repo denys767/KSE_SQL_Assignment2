@@ -74,7 +74,7 @@ CREATE INDEX idx_categories_categoryid_name ON categories(category_id, category_
 
 
 
-EXPLAIN ANALYZE
+--EXPLAIN ANALYZE
 WITH recent_orders AS (
     SELECT 
         order_id,

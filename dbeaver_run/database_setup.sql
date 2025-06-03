@@ -1,5 +1,5 @@
 -- Create database
-CREATE DATABASE IF NOT EXISTS ecommerce_optimization;
+CREATE DATABASE ecommerce_optimization;
 USE ecommerce_optimization;
 
 -- Create tables
